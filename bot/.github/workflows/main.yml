@@ -1,0 +1,21 @@
+name: Crypto-1D-Analysis
+
+on:
+  schedule:
+    # Her gün TSİ 03:05'te çalışır (Günlük mum kapanışı sonrası)
+    - cron: '5 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+          python-version: '3.9'
+      - run: pip install pandas requests
+      - name: Run Bot
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: python bot.py
